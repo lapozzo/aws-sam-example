@@ -1,6 +1,6 @@
 # Introduction
 
-Simple AWS Serverless Application Model example with Layer
+Simple AWS Serverless Application Model example with Layer and a SQS destination
 
 ## Requirements
 * aws-cli/2.0.56 
