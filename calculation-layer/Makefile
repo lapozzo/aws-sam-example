@@ -1,0 +1,2 @@
+deploy:
+	sam deploy

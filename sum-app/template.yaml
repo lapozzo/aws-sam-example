@@ -1,0 +1,49 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  sum-app
+
+  Sample SAM Template for sum-app
+
+Parameters:
+  LayerArn:
+    Type: String
+    Default: "arn:aws:lambda:region:xxxxxxxxxxxx:layer:calculation-layer:1" 
+
+Globals:
+  Function:
+    Timeout: 10
+
+Resources:
+  SumAppFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./sum/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Layers:
+        - !Ref LayerArn
+      Policies:
+        - SQSSendMessagePolicy:
+            QueueName:
+              !GetAtt SQSFailure.QueueName
+
+  EventInvokeConfig:
+    Type: AWS::Lambda::EventInvokeConfig
+    Properties:
+      FunctionName: !Ref SumAppFunction
+      Qualifier: "$LATEST"
+      DestinationConfig:
+        OnFailure:
+          Destination: !GetAtt SQSFailure.Arn
+
+  SQSFailure:
+    Type: AWS::SQS::Queue
+
+Outputs:
+  SumAppFunction:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt SumAppFunction.Arn
+  SumAppFunctionIamRole:
+    Description: "Implicit IAM Role created for Hello World function"
+    Value: !GetAtt SumAppFunctionRole.Arn

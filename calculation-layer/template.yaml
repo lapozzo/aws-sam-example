@@ -1,0 +1,15 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AWS SDK Layer
+
+Resources:
+  SDKlayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: calculation-layer
+      Description: Calculation Services Layer
+      ContentUri: './calculation_services/'
+      CompatibleRuntimes:
+        - python3.8
+      RetentionPolicy: Delete
+    
