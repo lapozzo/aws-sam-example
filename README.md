@@ -1,6 +1,6 @@
 # Introduction
 
-Simple AWS Serverless Application Model example
+Simple AWS Serverless Application Model example with Layer
 
 ## Requirements
 * aws-cli/2.0.56 
